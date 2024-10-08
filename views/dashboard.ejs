@@ -4,11 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tableau de bord</title>
+    <link rel="stylesheet" href="css/styles.css"> <!-- Lien vers votre fichier CSS -->
 </head>
 <body>
     <h1>Bienvenue, <%= user.username %>!</h1>
-    <p>Niveau: <%= user.level %></p>
+    <p>Niveau de permissions: <%= user.level %></p>
+<div class logut>
     <a href="/logout">Se déconnecter</a>
+</div>
     <% if (user.level === 2) { %>
         <a href="/admin">Accéder au tableau de bord Administrateur</a>
     <% } %>
