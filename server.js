@@ -34,7 +34,7 @@ const saveUsers = (users) => {
 };
 
 // Page de connexion
-app.get('/login', (req, res) => {
+app.get('/', (req, res) => {
     res.render('login');
 });
 
@@ -56,7 +56,7 @@ app.post('/register', (req, res) => {
     // Ajoute l'utilisateur avec un niveau par défaut (1)
     users.push({ email, username, password, level: 1 });
     saveUsers(users);
-    res.send('Compte créé avec succès. <a href="/login">Se connecter</a>');
+    res.send('Compte créé avec succès. <a href="/">Se connecter</a>');
 });
 
 // Gestion de la connexion
@@ -69,14 +69,14 @@ app.post('/login', (req, res) => {
         req.session.user = user; // Stocke l'utilisateur dans la session
         res.redirect('/dashboard'); // Redirige vers le tableau de bord
     } else {
-        res.send('Email ou mot de passe incorrect. <a href="/login">Réessayer</a>');
+        res.send('Email ou mot de passe incorrect. <a href="/">Réessayer</a>');
     }
 });
 
 // Page du tableau de bord
 app.get('/dashboard', (req, res) => {
     if (!req.session.user) {
-        return res.redirect('/login');
+        return res.redirect('/');
     }
     res.render('dashboard', { user: req.session.user });
 });
@@ -84,7 +84,7 @@ app.get('/dashboard', (req, res) => {
 // Page admin
 app.get('/admin', (req, res) => {
     if (!req.session.user || req.session.user.level !== 2) {
-        return res.send('Accès refusé. <a href="/login">Se connecter</a>');
+        return res.send('Accès refusé. <a href="/">Se connecter</a>');
     }
     res.render('admin', { user: req.session.user });
 });
@@ -92,7 +92,7 @@ app.get('/admin', (req, res) => {
 // Gestion de la déconnexion
 app.get('/logout', (req, res) => {
     req.session.destroy();
-    res.send('Déconnexion réussie. <a href="/login">Se reconnecter</a>');
+    res.send('Déconnexion réussie. <a href="/">Se reconnecter</a>');
 });
 
 // Démarrage du serveur

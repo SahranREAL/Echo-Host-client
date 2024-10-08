@@ -1,0 +1,67 @@
+/* Centrage du formulaire de connexion */
+.container {
+    background-color: #222; /* Fond du formulaire sombre */
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); /* Ombre */
+    max-width: 400px;
+    width: 100%;
+    margin: 0 auto;
+    text-align: center; /* Centrer le texte */
+}
+
+h2 {
+    color: #fff;
+    margin-bottom: 30px;
+    font-size: 24px;
+}
+
+input[type="email"], input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #333;
+    border-radius: 5px;
+    background-color: #333; /* Arrière-plan sombre des champs de saisie */
+    color: #e0e0e0; /* Couleur du texte dans les champs */
+    font-size: 16px;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    background-color: #7b2dfb; /* Bouton violet */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-bottom: 20px;
+}
+
+button:hover {
+    background-color: #6a24e0; /* Couleur violet foncé en hover */
+}
+
+/* Lien sous le formulaire */
+.form-links {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.form-links a {
+    font-size: 14px;
+}
+
+footer {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 14px;
+}
+
+footer a {
+    color: #7b2dfb;
+    margin: 0 10px;
+}

@@ -1,4 +1,4 @@
-- email: exemple@gmail.com
-  username: exemple
-  password: motdepasse
-  level: 1
+- email: test@gmail.com
+  username: test
+  password: 123
+  level: 2

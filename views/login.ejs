@@ -4,14 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Connexion</title>
+    <link rel="stylesheet" href="/css/login.css">
 </head>
 <body>
-    <h1>Connexion</h1>
     <form action="/login" method="POST">
+        <h2>Connexion</h2>
         <input type="email" name="email" placeholder="Email" required>
         <input type="password" name="password" placeholder="Mot de passe" required>
+        <label><input type="checkbox" name="remember">Se souvenir de moi</label>
         <button type="submit">Se connecter</button>
-    </form>    
-    <a href="/register">Créer un compte</a>
+        <div>
+            <a href="/forgot">Mot de passe oublié ?</a>
+            <a href="/register">Créer un compte</a>
+        </div>
+    </form>
+    <footer>
+        <a href="/imprint">By Echo-Host</a>
+    </footer>
 </body>
 </html>
