@@ -3,10 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inscription</title>
-    <link rel="stylesheet" href="/css/styles.css">
+    <title>Connexion - Echo-Host</title>
+    <link rel="stylesheet" href="css/register.css"> <!-- Lien vers votre fichier CSS -->
 </head>
 <body>
+    <div class="container">
+        <!-- Section gauche avec texte de promo -->
+        <div class="left-section">
+            <h1>Echo-Host</h1>
+            <p class="promo-text"><strong>Echo-Host.us.kg 🎮</strong></p>
+            <p class="promo-description">Nous avons des services à des prix qui battent toute concurrence avec des performances hors normes.</p>
+            <div class="ceo-info">
+                <img src="sahran" alt="Sahran" class="ceo-img">
+                <p class="ceo-name"><strong>Sahran</strong><br>CEO & Gérant</p>
+                <blockquote>Je suis content de vous proposer des services de qualité.</blockquote>
+            </div>
+        </div>
+
+<div class="right-section">
     <h1>Créer un compte</h1>
     <form action="/register" method="POST">
         <input type="email" name="email" placeholder="Email" required>
@@ -14,6 +28,7 @@
         <input type="password" name="password" placeholder="Mot de passe" required>
         <button type="submit">S'inscrire</button>
     </form>
-    <a href="/">Se connecter</a>
+    
+    <p class="create-account">Vous avez de compte? <a href="/">CRÉE VOS COMPTE</a></p>
 </body>
 </html>
