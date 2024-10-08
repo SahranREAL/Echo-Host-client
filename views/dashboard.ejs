@@ -6,14 +6,22 @@
     <title>Tableau de bord</title>
     <link rel="stylesheet" href="css/styles.css"> <!-- Lien vers votre fichier CSS -->
 </head>
+
+<header>
+    <nav>
+        <div class="logo">Echo-Host</div>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="offre">Account</a></li>
+            <li><a <% if (user.level === 2) { %>
+                <a href="/admin">Admin</a>
+            <% } %> </a></li>
+        </ul>
+    </nav>
+</header>
+
 <body>
     <h1>Bienvenue, <%= user.username %>!</h1>
-    <p>Niveau de permissions: <%= user.level %></p>
-<div class logut>
-    <a href="/logout">Se déconnecter</a>
-</div>
-    <% if (user.level === 2) { %>
-        <a href="/admin">Accéder au tableau de bord Administrateur</a>
-    <% } %>
+
 </body>
 </html>
