@@ -5,6 +5,7 @@ const fs = require('fs');
 const yaml = require('js-yaml');
 const path = require('path');
 const flash = require('connect-flash');
+const { v4: uuidv4 } = require('uuid'); // Importer uuid pour générer des identifiants uniques
 
 const app = express();
 const PORT = 3000;
@@ -28,7 +29,6 @@ const loadUsers = () => {
         return [];
     }
 };
-
 
 // Fonction pour sauvegarder les utilisateurs dans le fichier YAML
 const saveUsers = (users) => {
@@ -57,7 +57,7 @@ app.post('/register', (req, res) => {
     }
 
     // Ajoute l'utilisateur avec un niveau par défaut (1)
-    users.push({ email, username, password, level: 1 });
+    users.push({ email, username, password, level: 1, vps: [] });
     saveUsers(users);
     res.send('Compte créé avec succès. <a href="/">Se connecter</a>');
 });
@@ -85,10 +85,8 @@ app.get('/dashboard', (req, res) => {
     const users = loadUsers(); // Charge tous les utilisateurs
     const user = users.find(u => u.email === req.session.user.email); // Trouve l'utilisateur dans la liste
 
-    console.log(user); // Debug : Vérifie les données de l'utilisateur
     res.render('dashboard', { user }); // Passe l'utilisateur avec ses VPS
 });
-
 
 // Page admin
 app.get('/admin', (req, res) => {
@@ -111,12 +109,9 @@ app.post('/add-vps', (req, res) => {
         return res.redirect('/admin');
     }
 
-    if (!user.vps) {
-        user.vps = [];
-    }
-
-    // Ajouter un VPS à l'utilisateur
+    // Ajouter un VPS à l'utilisateur avec un identifiant unique
     user.vps.push({
+        id: uuidv4(), // Ajoute un identifiant unique
         vpsName,
         username,
         password,
@@ -132,29 +127,49 @@ app.post('/add-vps', (req, res) => {
     res.redirect('/admin');
 });
 
+// Route pour afficher les détails d'un VPS
+app.get('/manage/:id', (req, res) => {
+    const { id } = req.params;
+    const users = loadUsers();
+    const currentUser = req.session.user;
+
+    if (!currentUser) {
+        return res.redirect('/');
+    }
+
+    // Trouver le VPS correspondant à l'ID dans tous les VPS de tous les utilisateurs
+    const user = users.find(u => u.vps && u.vps.some(v => v.id === id));
+    const vps = user ? user.vps.find(v => v.id === id) : null;
+
+    if (!vps) {
+        return res.send('VPS non trouvé. <a href="/dashboard">Retourner au tableau de bord</a>');
+    }
+
+    // Passer les détails du VPS à la vue
+    res.render('manage', { vps, user: currentUser });
+});
+
 // Route pour supprimer un VPS
 app.post('/admin/delete-vps', (req, res) => {
-    const { email, vpsName } = req.body;
+    const { email, vpsId } = req.body;
 
     const users = loadUsers();
     const user = users.find(user => user.email === email);
 
     if (user && user.vps) {
-        // Filtrer les VPS pour supprimer celui qui correspond au nom du VPS
-        user.vps = user.vps.filter(vps => vps.vpsName !== vpsName);
+        // Filtrer les VPS pour supprimer celui qui correspond à l'ID du VPS
+        user.vps = user.vps.filter(vps => vps.id !== vpsId);
 
         // Sauvegarder les modifications
         saveUsers(users);
 
-        req.flash('success', `VPS "${vpsName}" supprimé.`);
+        req.flash('success', `VPS supprimé.`);
         res.redirect('/admin');
     } else {
         req.flash('error', 'Utilisateur ou VPS non trouvé.');
         res.redirect('/admin');
     }
 });
-
-
 
 // Route pour afficher tous les VPS (pour admin uniquement)
 app.get('/admin/vps', (req, res) => {
@@ -173,17 +188,17 @@ app.get('/admin/vps', (req, res) => {
                     email: user.email,  // Ajouter l'email de l'utilisateur pour chaque VPS
                     vpsName: vps.vpsName,
                     ipv4: vps.ipv4,
-                    os: vps.os
+                    os: vps.os,
+                    id: vps.id // Ajouter l'identifiant du VPS
                 });
             });
         }
     });
 
+    const currentUser = req.session.user; 
     // Rendre la page admin/vps.ejs avec la liste des VPS
-    res.render('admin/vps', { allVps });
+    res.render('admin/vps', { allVps, user: currentUser });
 });
-
-
 
 // Gestion de la déconnexion
 app.get('/logout', (req, res) => {

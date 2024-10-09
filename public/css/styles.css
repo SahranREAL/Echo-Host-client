@@ -15,7 +15,7 @@ body, html {
     display: inline-block;
     padding: 10px 10px;
     font-size: 15px;
-    color: #ffffff;
+    color: #000000;
     background-color: #007bff;
     border: none;
     border-radius: 5px;
@@ -66,3 +66,29 @@ nav ul li a {
 nav ul li a:hover {
     color: #000000;
 }
+/* Styles pour la liste des VPS */
+.vps-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px; /* Espacement supérieur pour séparer du titre */
+}
+
+/* Styles pour les éléments de la liste des VPS */
+.vps-list li {
+    background-color: #ffffff;
+    margin: 10px 0;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Styles pour les boutons de gestion des VPS */
+.manage-buttons {
+    margin-top: 20px; /* Espacement supérieur pour séparer du contenu précédent */
+}
+
+
+.footer {
+    text-align: center;
+    color: #a0a0a0;
+  }

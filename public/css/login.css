@@ -117,6 +117,8 @@ button:hover {
 }
 
 
+
+
 /* Responsive design pour les petits écrans */
 @media (max-width: 1024px) {
   .container {
@@ -168,3 +170,5 @@ button:hover {
       font-size: 14px;
   }
 }
+
+

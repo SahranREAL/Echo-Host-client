@@ -1,13 +1,14 @@
-- email: caca@gmail.com
-  username: '123'
+- email: sahran@gmail.com
+  username: sahran
   password: '123'
   level: 2
   vps:
-    - vpsName: Iron - Caca
+    - id: 3591b6db-4368-459c-8ce9-f50d4f6d59d5
+      vpsName: test
       username: root
-      password: '123'
+      password: '2525'
       ram: '64'
-      disk: '64'
-      vcpu: '12'
-      ipv4: '1'
+      disk: '150'
+      vcpu: '2'
+      ipv4: 1.1.1.1
       os: Ubuntu 22.04 LTS

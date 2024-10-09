@@ -3,38 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Liste des VPS</title>
+    <title>Gestion des VPS</title>
     <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-    <header>
-        <nav>
-            <div class="logo">Echo-Host</div>
-            <ul>
-                <li><a href="/dashboard">Home</a></li>
-                <li><a href="/logout">Se déconnecter</a></li>
-            </ul>
-        </nav>
-    </header>
+    <h1>Gestion des VPS</h1>
+    
+    <h2>Liste des VPS</h2>
 
-    <main>
-        <h1>Liste de tous les VPS</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Email</th>
+                <th>Nom du VPS</th>
+                <th>Adresse IPv4</th>
+                <th>Système d'Exploitation</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% allVps.forEach(vps => { %>
+                <tr>
+                    <td><%= vps.email %></td>
+                    <td><%= vps.vpsName %></td>
+                    <td><%= vps.ipv4 %></td>
+                    <td><%= vps.os %></td>
+                    <td>
+                        <a href="/manage/<%= vps.id %>">Gérer</a>
+                        <form action="/admin/delete-vps" method="POST" style="display:inline;">
+                            <input type="hidden" name="email" value="<%= vps.email %>">
+                            <input type="hidden" name="vpsId" value="<%= vps.id %>">
+                            <button type="submit" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce VPS ?');">Supprimer</button>
+                        </form>
+                    </td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
 
-        <!-- Affichage de la liste des VPS -->
-        <% if (allVps && allVps.length > 0) { %>
-            <ul>
-                <% allVps.forEach(vps => { %>
-                    <li>
-                        <strong>Utilisateur :</strong> <%= vps.email %><br>
-                        <strong>Nom du VPS :</strong> <%= vps.vpsName %> <br>
-                        <strong>IPv4 :</strong> <%= vps.ipv4 %> <br>
-                        <strong>Système d'exploitation :</strong> <%= vps.os %> <br>
-                    </li>
-                <% }) %>
-            </ul>
-        <% } else { %>
-            <p>Aucun VPS trouvé.</p>
-        <% } %>
-    </main>
+    <p><a href="/admin">Retour à l'administration</a></p>
+
+    <div class="footer">
+        <div class="copyright">
+          &copy; Copyright <strong><span>Echo-Host</span></strong>. Tous droits réservés.
+        </div>
+        
 </body>
 </html>

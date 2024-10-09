@@ -26,19 +26,23 @@
         <p>Niveau de permissions: <%= user.level %></p>
 
         <!-- Affichage des VPS de l'utilisateur -->
-        <% if (user.vps && user.vps.length > 0) { %>
-            <h2>Vos serveurs VPS</h2>
-            <ul>
-                <% user.vps.forEach(vps => { %>
-                    <li>
-                        <strong>Nom du VPS :</strong> <%= vps.vpsName %> <br>
-                        <button onclick="window.location.href='/vps/details?name=<%= vps.vpsName %>'">Voir les détails</button>
-                    </li>
-                <% }) %>
+        <ul class="vps-list">
+        <ul>
+            <% user.vps.forEach(vps => { %>
+                <li>
+                    <strong>Nom du VPS :</strong> <%= vps.vpsName %> <br>
+                    <button onclick="window.location.href='/manage/<%= vps.id %>'">Gérer</button>
+                </li>
+            <% }) %>
             </ul>
-        <% } else { %>
-            <p>Vous n'avez aucun VPS.</p>
-        <% } %>
+        </ul>
+        
     </main>
 </body>
+
+<div class="footer">
+    <div class="copyright">
+      &copy; Copyright <strong><span>Echo-Host</span></strong>. Tous droits réservés.
+    </div>
+
 </html>
