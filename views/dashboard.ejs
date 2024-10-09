@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tableau de bord</title>
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/dash.css">
 </head>
 <body>
     <header>
@@ -23,7 +24,10 @@
 
     <main>
         <h1>Bienvenue, <%= user.username %>!</h1>
+
+    <div class="permision">
         <p>Niveau de permissions: <%= user.level %></p>
+    </div>
 
         <!-- Affichage des VPS de l'utilisateur -->
         <ul class="vps-list">

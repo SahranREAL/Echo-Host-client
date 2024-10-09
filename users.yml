@@ -2,14 +2,4 @@
   username: sahran
   password: '123'
   level: 2
-  vps:
-    - id: 631e1c17-4763-48d3-afd5-bb48e31a7dc8
-      vpsName: VPS - Iron sahran test
-      username: root
-      password: Htbe@htv
-      ram: 64 GiB
-      disk: 120 GiB
-      vcpu: 16 Vcore
-      ipv4: 1.1.1.1
-      os: Ubuntu 22.04 LTS
-      expirationDate: '2024-11-09'
+  vps: []

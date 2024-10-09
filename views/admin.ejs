@@ -3,8 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/styles.css">
     <title>Admin Dashboard</title>
 </head>
+
+<header>
+    <nav>
+        <div class="logo">Echo-Host</div>
+        <ul>
+            <li><a href="/dashboard">Home</a></li>
+            <% if (user.level === 2) { %>
+                <li><a href="/admin">Admin</a></li>
+                <li><button onclick="window.location.href='/admin/vps'">Voir tous les VPS</button></li>
+            <% } %>
+            <li><a href="/logout">Se déconnecter</a></li>
+        </ul>
+    </nav>
+</header>
 <body>
     <h1>Tableau de bord Administrateur</h1>
     <p>Bienvenue, <%= user.username %>! Vous êtes un administrateur.</p>
@@ -44,10 +59,6 @@
         <button type="submit">Ajouter VPS</button>
     </form>
     
-
-
-    <a href="/logout">Se déconnecter</a>
-
     <div class="footer">
         <div class="copyright">
           &copy; Copyright <strong><span>Echo-Host</span></strong>. Tous droits réservés.

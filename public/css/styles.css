@@ -11,12 +11,13 @@ body, html {
 }
 
 
-.admin-button {
+/*Manage buttons debut*/
+.delete-button {
     display: inline-block;
     padding: 10px 10px;
     font-size: 15px;
     color: #000000;
-    background-color: #007bff;
+    background-color: #d41212;
     border: none;
     border-radius: 5px;
     text-align: center;
@@ -24,10 +25,15 @@ body, html {
     cursor: pointer;
 }
 
-.admin-button:hover {
-    background-color: #0056b3;
+.delete-button:hover {
+    background-color: rgb(167, 19, 19);
 }
+/*End manage buttons*/
 
+
+main h1 {
+    text-align: center;
+}
 
 
 header {
@@ -66,14 +72,15 @@ nav ul li a {
 nav ul li a:hover {
     color: #000000;
 }
-/* Styles pour la liste des VPS */
+
+
+/* Debut styles vps list*/
 .vps-list {
     list-style: none;
     padding: 0;
-    margin-top: 20px; /* Espacement supérieur pour séparer du titre */
+    margin-top: 20px;
 }
 
-/* Styles pour les éléments de la liste des VPS */
 .vps-list li {
     background-color: #ffffff;
     margin: 10px 0;
@@ -81,11 +88,7 @@ nav ul li a:hover {
     border-radius: 5px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
-
-/* Styles pour les boutons de gestion des VPS */
-.manage-buttons {
-    margin-top: 20px; /* Espacement supérieur pour séparer du contenu précédent */
-}
+/* Fin vps list styles */
 
 
 .footer {
