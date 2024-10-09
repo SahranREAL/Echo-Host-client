@@ -100,7 +100,7 @@ app.get('/admin', (req, res) => {
 
 // Route pour ajouter un VPS
 app.post('/add-vps', (req, res) => {
-    const { email, vpsName, username, password, ram, disk, vcpu, ipv4, os } = req.body;
+    const { email, vpsName, username, password, ram, disk, vcpu, ipv4, os, purchaseDate } = req.body;
     const users = loadUsers();
 
     const user = users.find(user => user.email === email);
@@ -109,7 +109,11 @@ app.post('/add-vps', (req, res) => {
         return res.redirect('/admin');
     }
 
-    // Ajouter un VPS à l'utilisateur avec un identifiant unique
+    // Créer une date d'expiration (un mois après la date d'achat)
+    const expirationDate = new Date(purchaseDate);
+    expirationDate.setMonth(expirationDate.getMonth() + 1); // Ajouter un mois à la date d'achat
+
+    // Ajouter un VPS à l'utilisateur avec un identifiant unique et une date d'expiration
     user.vps.push({
         id: uuidv4(), // Ajoute un identifiant unique
         vpsName,
@@ -119,7 +123,9 @@ app.post('/add-vps', (req, res) => {
         disk,
         vcpu,
         ipv4,
-        os
+        os,
+        purchaseDate: purchaseDate, // Date d'achat
+        expirationDate: expirationDate.toISOString().split('T')[0] // Format YYYY-MM-DD
     });
 
     saveUsers(users);

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestion du VPS</title>
+    <title>Gérer le VPS</title>
     <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
@@ -11,34 +11,28 @@
         <nav>
             <div class="logo">Echo-Host</div>
             <ul>
-                <li><a href="/dashboard">Home</a></li>
+                <li><a href="/">Home</a></li>
                 <li><a href="/logout">Se déconnecter</a></li>
             </ul>
         </nav>
     </header>
 
     <main>
-        <h1>Détails du VPS</h1>
-        <p><strong>Nom du VPS :</strong> <%= vps.vpsName %></p>
-        <p><strong>Username :</strong> <%= vps.username %></p>
-        <p><strong>Mot de passe :</strong> <%= vps.password %></p>
-        <p><strong>RAM :</strong> <%= vps.ram %> Go</p>
-        <p><strong>Disque :</strong> <%= vps.disk %> Go</p>
-        <p><strong>CPU :</strong> <%= vps.vcpu %> vCPU</p>
+        <h1>Détails du VPS : <%= vps.vpsName %></h1>
+        <p><strong>Nom d'utilisateur :</strong> <%= vps.username %></p>
+        <p><strong>RAM :</strong> <%= vps.ram %></p>
+        <p><strong>Disque :</strong> <%= vps.disk %></p>
+        <p><strong>CPU :</strong> <%= vps.vcpu %></p>
         <p><strong>IPv4 :</strong> <%= vps.ipv4 %></p>
         <p><strong>OS :</strong> <%= vps.os %></p>
+        <p><strong>Date d'achat :</strong> <%= vps.purchaseDate %></p> <!-- Affichage de la date d'achat -->
+        <p><strong>Date d'expiration :</strong> <%= vps.expirationDate %></p> <!-- Affichage de la date d'expiration -->
 
-        <form action="/admin/delete-vps" method="POST">
+        <form action="/admin/delete-vps" method="post">
             <input type="hidden" name="email" value="<%= user.email %>">
             <input type="hidden" name="vpsId" value="<%= vps.id %>">
-            <button type="submit">Supprimer le VPS</button>
+            <button type="submit" class="admin-button">Supprimer le VPS</button>
         </form>
     </main>
-
-    <div class="footer">
-        <div class="copyright">
-          &copy; Copyright <strong><span>Echo-Host</span></strong>. Tous droits réservés.
-        </div>
-        
 </body>
 </html>

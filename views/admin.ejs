@@ -10,18 +10,40 @@
     <p>Bienvenue, <%= user.username %>! Vous êtes un administrateur.</p>
 
     <h2>Ajouter un serveur VPS</h2>
-    <form action="/add-vps" method="POST">
-        <input type="email" name="email" placeholder="Email de l'utilisateur" required>
-        <input type="text" name="vpsName" placeholder="Nom du VPS" required> <!-- Ajout du champ pour le nom du VPS -->
-        <input type="text" name="username" placeholder="Nom d'utilisateur" required>
-        <input type="password" name="password" placeholder="Mot de passe" required>
-        <input type="number" name="ram" placeholder="RAM (en Go)" required>
-        <input type="number" name="disk" placeholder="Disque (en Go)" required>
-        <input type="number" name="vcpu" placeholder="vCPU" required>
-        <input type="text" name="ipv4" placeholder="IPv4" required>
-        <input type="text" name="os" placeholder="Système d'exploitation" required>
+    <form action="/add-vps" method="post">
+        <label for="email">Email de l'utilisateur :</label>
+        <input type="email" name="email" required>
+    
+        <label for="vpsName">Nom du VPS :</label>
+        <input type="text" name="vpsName" required>
+    
+        <label for="username">Nom d'utilisateur :</label>
+        <input type="text" name="username" required>
+    
+        <label for="password">Mot de passe :</label>
+        <input type="password" name="password" required>
+    
+        <label for="ram">RAM :</label>
+        <input type="text" name="ram" required>
+    
+        <label for="disk">Disque :</label>
+        <input type="text" name="disk" required>
+    
+        <label for="vcpu">CPU :</label>
+        <input type="text" name="vcpu" required>
+    
+        <label for="ipv4">IPv4 :</label>
+        <input type="text" name="ipv4" required>
+    
+        <label for="os">OS :</label>
+        <input type="text" name="os" required>
+    
+        <label for="purchaseDate">Date d'achat :</label>
+        <input type="date" name="purchaseDate" required> <!-- Champ pour la date d'achat -->
+    
         <button type="submit">Ajouter VPS</button>
     </form>
+    
 
 
     <a href="/logout">Se déconnecter</a>
