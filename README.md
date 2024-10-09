@@ -1,4 +1,6 @@
 # Echo-Host cliet
+   | :exclamation:   L'espace client ne **hach** pas encore les mot de passe NE LEAK DONC PAS VOTRE USERS.YML                                             |
+   |------------------------------------------------------------------------------------------------------------------------------------------------------|
 
 # indépendence:
 Pour configurer le projet **Echo-Host client** et installer les dépendances nécessaires, suivez les étapes ci-dessous. Je vais également inclure la configuration Nginx sans SSL.
