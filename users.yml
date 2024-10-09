@@ -1,8 +1,13 @@
-- email: test@gmail.com
-  username: test
-  password: 123
-  level: 2
 - email: caca@gmail.com
   username: '123'
   password: '123'
   level: 2
+  vps:
+    - vpsName: Iron - Caca
+      username: root
+      password: '123'
+      ram: '64'
+      disk: '64'
+      vcpu: '12'
+      ipv4: '1'
+      os: Ubuntu 22.04 LTS

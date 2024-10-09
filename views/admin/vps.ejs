@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste des VPS</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">Echo-Host</div>
+            <ul>
+                <li><a href="/dashboard">Home</a></li>
+                <li><a href="/logout">Se déconnecter</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Liste de tous les VPS</h1>
+
+        <!-- Affichage de la liste des VPS -->
+        <% if (allVps && allVps.length > 0) { %>
+            <ul>
+                <% allVps.forEach(vps => { %>
+                    <li>
+                        <strong>Utilisateur :</strong> <%= vps.email %><br>
+                        <strong>Nom du VPS :</strong> <%= vps.vpsName %> <br>
+                        <strong>IPv4 :</strong> <%= vps.ipv4 %> <br>
+                        <strong>Système d'exploitation :</strong> <%= vps.os %> <br>
+                    </li>
+                <% }) %>
+            </ul>
+        <% } else { %>
+            <p>Aucun VPS trouvé.</p>
+        <% } %>
+    </main>
+</body>
+</html>

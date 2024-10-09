@@ -12,6 +12,7 @@
     <h2>Ajouter un serveur VPS</h2>
     <form action="/add-vps" method="POST">
         <input type="email" name="email" placeholder="Email de l'utilisateur" required>
+        <input type="text" name="vpsName" placeholder="Nom du VPS" required> <!-- Ajout du champ pour le nom du VPS -->
         <input type="text" name="username" placeholder="Nom d'utilisateur" required>
         <input type="password" name="password" placeholder="Mot de passe" required>
         <input type="number" name="ram" placeholder="RAM (en Go)" required>
@@ -21,7 +22,6 @@
         <input type="text" name="os" placeholder="Système d'exploitation" required>
         <button type="submit">Ajouter VPS</button>
     </form>
-
 
 
     <a href="/logout">Se déconnecter</a>

@@ -1,10 +1,11 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('express-session');
-const flash = require('connect-flash'); // Importer connect-flash
 const fs = require('fs');
 const yaml = require('js-yaml');
 const path = require('path');
+const flash = require('connect-flash');
+
 const app = express();
 const PORT = 3000;
 
@@ -14,7 +15,7 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(session({ secret: 'secret-key', resave: false, saveUninitialized: true }));
-app.use(flash()); // Utiliser connect-flash
+app.use(flash());
 
 const yamlFile = 'users.yml';
 
@@ -27,6 +28,7 @@ const loadUsers = () => {
         return [];
     }
 };
+
 
 // Fonction pour sauvegarder les utilisateurs dans le fichier YAML
 const saveUsers = (users) => {
@@ -79,35 +81,106 @@ app.get('/dashboard', (req, res) => {
     if (!req.session.user) {
         return res.redirect('/');
     }
-    res.render('dashboard', { user: req.session.user });
+    
+    const users = loadUsers(); // Charge tous les utilisateurs
+    const user = users.find(u => u.email === req.session.user.email); // Trouve l'utilisateur dans la liste
+
+    console.log(user); // Debug : Vérifie les données de l'utilisateur
+    res.render('dashboard', { user }); // Passe l'utilisateur avec ses VPS
 });
+
 
 // Page admin
 app.get('/admin', (req, res) => {
     if (!req.session.user || req.session.user.level !== 2) {
         return res.send('Accès refusé. <a href="/">Se connecter</a>');
     }
-    res.render('admin', { 
-        user: req.session.user, 
-        messages: req.flash() // Assurez-vous que cette ligne est présente
-    });
+
+    const users = loadUsers();
+    res.render('admin', { user: req.session.user, users });
 });
 
-// Gestion de l'ajout de serveur VPS
+// Route pour ajouter un VPS
 app.post('/add-vps', (req, res) => {
-    const { email, ram, disk, vcpu, ipv4, username, password, os } = req.body;
+    const { email, vpsName, username, password, ram, disk, vcpu, ipv4, os } = req.body;
+    const users = loadUsers();
+
+    const user = users.find(user => user.email === email);
+    if (!user) {
+        req.flash('error', 'Utilisateur non trouvé.');
+        return res.redirect('/admin');
+    }
+
+    if (!user.vps) {
+        user.vps = [];
+    }
+
+    // Ajouter un VPS à l'utilisateur
+    user.vps.push({
+        vpsName,
+        username,
+        password,
+        ram,
+        disk,
+        vcpu,
+        ipv4,
+        os
+    });
+
+    saveUsers(users);
+    req.flash('success', 'VPS ajouté avec succès.');
+    res.redirect('/admin');
+});
+
+// Route pour supprimer un VPS
+app.post('/admin/delete-vps', (req, res) => {
+    const { email, vpsName } = req.body;
+
     const users = loadUsers();
     const user = users.find(user => user.email === email);
 
-    if (!user) {
-        return res.send('Utilisateur non trouvé. <a href="/admin">Retourner à l\'admin</a>');
+    if (user && user.vps) {
+        // Filtrer les VPS pour supprimer celui qui correspond au nom du VPS
+        user.vps = user.vps.filter(vps => vps.vpsName !== vpsName);
+
+        // Sauvegarder les modifications
+        saveUsers(users);
+
+        req.flash('success', `VPS "${vpsName}" supprimé.`);
+        res.redirect('/admin');
+    } else {
+        req.flash('error', 'Utilisateur ou VPS non trouvé.');
+        res.redirect('/admin');
+    }
+});
+
+
+
+// Route pour afficher tous les VPS (pour admin uniquement)
+app.get('/admin/vps', (req, res) => {
+    if (!req.session.user || req.session.user.level !== 2) {
+        return res.send('Accès refusé. <a href="/">Se connecter</a>');
     }
 
-    // Ajoutez ici la logique pour créer un VPS (stockage, etc.)
+    const users = loadUsers();
+    let allVps = [];
 
-    // Utiliser flash pour le message de succès
-    req.flash('success', 'VPS ajouté avec succès!'); 
-    res.redirect('/admin'); // Rediriger vers la page admin
+    // Parcourir tous les utilisateurs pour récupérer leurs VPS
+    users.forEach(user => {
+        if (user.vps) {
+            user.vps.forEach(vps => {
+                allVps.push({
+                    email: user.email,  // Ajouter l'email de l'utilisateur pour chaque VPS
+                    vpsName: vps.vpsName,
+                    ipv4: vps.ipv4,
+                    os: vps.os
+                });
+            });
+        }
+    });
+
+    // Rendre la page admin/vps.ejs avec la liste des VPS
+    res.render('admin/vps', { allVps });
 });
 
 
@@ -118,67 +191,7 @@ app.get('/logout', (req, res) => {
     res.send('Déconnexion réussie. <a href="/">Se reconnecter</a>');
 });
 
-
-
-// Gestion de l'ajout de serveur VPS
-app.post('/add-vps', (req, res) => {
-    const { email, username, password, ram, disk, vcpu, ipv4, os } = req.body;
-    
-    // Charge les utilisateurs depuis le fichier YAML
-    const users = loadUsers();
-
-    // Trouver l'utilisateur par son adresse e-mail
-    const user = users.find(user => user.email === email);
-
-    if (!user) {
-        return res.send('Utilisateur non trouvé. <a href="/admin">Retour au tableau de bord</a>');
-    }
-
-    // Vérifie si l'utilisateur a déjà un VPS (par exemple dans un tableau)
-    if (!user.vps) {
-        user.vps = []; // Initialise le tableau VPS s'il n'existe pas
-    }
-
-    // Ajoute le VPS aux VPS de l'utilisateur
-    user.vps.push({
-        username,
-        password,
-        ram,
-        disk,
-        vcpu,
-        ipv4,
-        os
-    });
-
-    // Sauvegarde les utilisateurs modifiés dans le fichier YAML
-    saveUsers(users);
-
-    res.send('Serveur VPS ajouté avec succès à l\'utilisateur. <a href="/admin">Retour au tableau de bord</a>');
-});
-// Gestion de l'ajout de serveur VPS
-app.post('/add-vps', (req, res) => {
-    const { email, ram, disk, vcpu, ipv4, username, password, os } = req.body;
-    const users = loadUsers();
-    const user = users.find(user => user.email === email);
-
-    if (!user) {
-        return res.send('Utilisateur non trouvé. <a href="/admin">Retourner à l\'admin</a>');
-    }
-
-    // Ajoutez ici la logique pour créer un VPS (stockage, etc.)
-
-    // Utiliser flash pour le message de succès
-    req.flash('success', 'VPS ajouté avec succès!'); 
-    res.redirect('/admin'); // Rediriger vers la page admin
-});
-
-
-
-
-
 // Démarrage du serveur
 app.listen(PORT, () => {
     console.log(`Serveur en cours d'exécution sur http://localhost:${PORT}`);
 });
-
-

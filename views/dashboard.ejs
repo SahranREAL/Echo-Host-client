@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tableau de bord</title>
-    <link rel="stylesheet" href="css/styles.css"> <!-- Lien vers votre fichier CSS -->
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
     <header>
@@ -14,6 +14,7 @@
                 <li><a href="/">Home</a></li>
                 <% if (user.level === 2) { %>
                     <li><a href="/admin">Admin</a></li>
+                    <li><button onclick="window.location.href='/admin/vps'">Voir tous les VPS</button></li>
                 <% } %>
                 <li><a href="/logout">Se déconnecter</a></li>
             </ul>
@@ -23,7 +24,21 @@
     <main>
         <h1>Bienvenue, <%= user.username %>!</h1>
         <p>Niveau de permissions: <%= user.level %></p>
-        </div>
+
+        <!-- Affichage des VPS de l'utilisateur -->
+        <% if (user.vps && user.vps.length > 0) { %>
+            <h2>Vos serveurs VPS</h2>
+            <ul>
+                <% user.vps.forEach(vps => { %>
+                    <li>
+                        <strong>Nom du VPS :</strong> <%= vps.vpsName %> <br>
+                        <button onclick="window.location.href='/vps/details?name=<%= vps.vpsName %>'">Voir les détails</button>
+                    </li>
+                <% }) %>
+            </ul>
+        <% } else { %>
+            <p>Vous n'avez aucun VPS.</p>
+        <% } %>
     </main>
 </body>
 </html>
