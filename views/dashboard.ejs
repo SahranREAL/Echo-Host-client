@@ -29,17 +29,16 @@
         <p>Niveau de permissions: <%= user.level %></p>
     </div>
 
-        <!-- Affichage des VPS de l'utilisateur -->
-        <ul class="vps-list">
-        <ul>
-            <% user.vps.forEach(vps => { %>
-                <li>
-                    <strong>Nom du VPS :</strong> <%= vps.vpsName %> <br>
-                    <button onclick="window.location.href='/manage/<%= vps.id %>'">Gérer</button>
-                </li>
-            <% }) %>
-            </ul>
-        </ul>
+<!-- Affichage des VPS de l'utilisateur sous forme de boîtes -->
+<div class="vps-list">
+    <% user.vps.forEach(vps => { %>
+        <div class="vps-box">
+            <strong>Nom du VPS :</strong> <%= vps.vpsName %> <br>
+            <button class="manage-button" onclick="window.location.href='/manage/<%= vps.id %>'">Gérer</button>
+        </div>
+    <% }) %>
+</div>
+
         
     </main>
 </body>
