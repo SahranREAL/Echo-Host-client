@@ -136,11 +136,11 @@ app.post('/add-vps', (req, res) => {
 // Route pour afficher les détails d'un VPS
 app.get('/manage/:id', (req, res) => {
     const { id } = req.params;
-    const users = loadUsers();
+    const users = loadUsers(); // Charger les utilisateurs avec leurs VPS depuis la base de données ou fichier
     const currentUser = req.session.user;
 
     if (!currentUser) {
-        return res.redirect('/');
+        return res.redirect('/'); // Redirection si l'utilisateur n'est pas connecté
     }
 
     // Trouver le VPS correspondant à l'ID dans tous les VPS de tous les utilisateurs
@@ -151,8 +151,22 @@ app.get('/manage/:id', (req, res) => {
         return res.send('VPS non trouvé. <a href="/dashboard">Retourner au tableau de bord</a>');
     }
 
-    // Passer les détails du VPS à la vue
-    res.render('manage', { vps, user: currentUser });
+    // Vérification des permissions
+    if (currentUser.level === 2) {
+        // Si l'utilisateur est un admin (niveau 2), il peut accéder à tous les VPS
+        return res.render('manage', { vps, user: currentUser });
+    } else {
+        // Vérification si l'utilisateur possède le VPS
+        const userOwnsVps = currentUser.vps.some(userVps => userVps.id === id);
+
+        if (userOwnsVps) {
+            // Si l'utilisateur est le propriétaire du VPS, afficher les détails
+            return res.render('manage', { vps, user: currentUser });
+        } else {
+            // Si l'utilisateur n'est pas le propriétaire, accès refusé
+            return res.send('Accès refusé. Ce VPS ne vous appartient pas. <a href="/dashboard">Retourner au tableau de bord</a>');
+        }
+    }
 });
 
 // Route pour supprimer un VPS
@@ -170,7 +184,7 @@ app.post('/admin/delete-vps', (req, res) => {
         saveUsers(users);
 
         req.flash('success', `VPS supprimé.`);
-        res.redirect('/admin');
+        res.redirect('/dashboard');
     } else {
         req.flash('error', 'Utilisateur ou VPS non trouvé.');
         res.redirect('/admin');

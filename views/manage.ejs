@@ -35,11 +35,7 @@
         <p><strong>Date d'achat :</strong> <%= vps.purchaseDate %></p> <!-- Affichage de la date d'achat -->
         <p><strong>Date d'expiration :</strong> <%= vps.expirationDate %></p> <!-- Affichage de la date d'expiration -->
 
-        <form action="/admin/delete-vps" method="post">
-            <input type="hidden" name="email" value="<%= user.email %>">
-            <input type="hidden" name="vpsId" value="<%= vps.id %>">
-            <button type="submit" class="delete-button">Supprimer le VPS</button>
-        </form>
+
     </main>
 </body>
 </html>
