@@ -160,7 +160,7 @@ app.post('/add-vps', (req, res) => {
     });
 
     saveUsers(users);
-    logAction('Ajout VPS', `VPS ajoutÃƒÂ© pour ${email} avec le nom: ${vpsName}`);
+    logAction('Ajout VPS', `VPS ajoutr pour ${email} avec le nom: ${vpsName}`);
     req.flash('success', 'VPS ajoute avec succe¨s.');
     res.redirect('/admin');
 });
@@ -181,7 +181,7 @@ app.get('/manage/:id', (req, res) => {
     const vps = user ? user.vps.find(v => v.id === id) : null;
 
     if (!vps) {
-        return res.send('VPS non trouvÃ©. <a href="/dashboard">Retourner au tableau de bord</a>');
+        return res.send('VPS non trouvr. <a href="/dashboard">Retourner au tableau de bord</a>');
     }
 
     // VÃ©rification des permissions
@@ -197,7 +197,7 @@ app.get('/manage/:id', (req, res) => {
             return res.render('manage', { vps, user: currentUser });
         } else {
             // Si l'utilisateur n'est pas le propriÃ©taire, accÃ¨s refusÃ©
-            return res.send('AccÃ¨s refusÃ©. Ce VPS ne vous appartient pas. <a href="/dashboard">Retourner au tableau de bord</a>');
+            return res.send('Acces¨s refuse. Ce VPS ne vous appartient pas. <a href="/dashboard">Retourner au tableau de bord</a>');
         }
     }
 });
@@ -214,7 +214,7 @@ app.post('/admin/delete-vps', (req, res) => {
         saveUsers(users);
 
         logAction('Suppression VPS', `VPS avec ID: ${vpsId} supprime pour l'utilisateur: ${email}`);
-        req.flash('success', `VPS supprimÃƒÂ©.`);
+        req.flash('success', `VPS supprime.`);
         res.redirect('/dashboard');
     } else {
         logAction('Erreur suppression VPS', `Tentative echoue pour supprimer le VPS ID: ${vpsId} pour l'email: ${email}`);
