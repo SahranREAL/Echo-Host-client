@@ -6,6 +6,7 @@ const yaml = require('js-yaml');
 const path = require('path');
 const flash = require('connect-flash');
 const { v4: uuidv4 } = require('uuid'); // Importer uuid pour générer des identifiants uniques
+const axios = require('axios');
 
 const app = express();
 const PORT = 3000;
@@ -30,6 +31,29 @@ const loadUsers = () => {
     }
 };
 
+
+// URL du webhook Discord (à remplacer par ton webhook)
+const DISCORD_WEBHOOK_URL = 'https://discord.com/api/webhooks/1284931135465590965/hDFfLJ3OSjMdAq_1Ul4NhTPinCi2XcMcyLxAcEqzDBmaB6ADjEjQRTjGVPYF56rDG6xJ';
+
+const logAction = (action, details) => {
+    if (!DISCORD_WEBHOOK_URL) {
+        console.error('Aucune URL de webhook Discord configurée.');
+        return;
+    }
+
+    const message = {
+        content: `**Action:** ${action}\n**Détails:** ${details}\n**Date:** ${new Date().toISOString()}`,
+        username: 'Echo-Client | Logs',
+        avatar_url: 'https://www.gravatar.com/avatar/ecdb7f3320f6e7dd30b6cd99672bef0d?s=2048', // Optionnel : remplacer par un lien d'image pour l'avatar du bot
+    };
+
+    axios.post(DISCORD_WEBHOOK_URL, message)
+        .then(() => console.log('Log envoyé à Discord.'))
+        .catch(error => console.error('Erreur lors de l\'envoi du log à Discord:', error.message));
+};
+
+
+
 // Fonction pour sauvegarder les utilisateurs dans le fichier YAML
 const saveUsers = (users) => {
     const yamlStr = yaml.dump(users);
@@ -51,14 +75,14 @@ app.post('/register', (req, res) => {
     const { email, username, password } = req.body;
     const users = loadUsers();
 
-    // Vérifie si l'utilisateur existe déjà
     if (users.find(user => user.email === email)) {
         return res.send('Utilisateur déjà existant. <a href="/register">Essayez un autre email</a>');
     }
 
-    // Ajoute l'utilisateur avec un niveau par défaut (1)
     users.push({ email, username, password, level: 1, vps: [] });
     saveUsers(users);
+
+    logAction('Création de compte', `Email: ${email}, Username: ${username}`);
     res.send('Compte créé avec succès. <a href="/">Se connecter</a>');
 });
 
@@ -69,12 +93,15 @@ app.post('/login', (req, res) => {
 
     const user = users.find(user => user.email === email && user.password === password);
     if (user) {
-        req.session.user = user; // Stocke l'utilisateur dans la session
-        res.redirect('/dashboard'); // Redirige vers le tableau de bord
+        req.session.user = user;
+        logAction('Connexion', `Email: ${email}`);
+        res.redirect('/dashboard');
     } else {
+        logAction('Échec de connexion', `Tentative avec email: ${email}`);
         res.send('Email ou mot de passe incorrect. <a href="/">Réessayer</a>');
     }
 });
+
 
 // Page du tableau de bord
 app.get('/dashboard', (req, res) => {
@@ -106,16 +133,15 @@ app.post('/add-vps', (req, res) => {
     const user = users.find(user => user.email === email);
     if (!user) {
         req.flash('error', 'Utilisateur non trouvé.');
+        logAction('Erreur ajout VPS', `Utilisateur non trouvé pour l'email: ${email}`);
         return res.redirect('/admin');
     }
 
-    // Créer une date d'expiration (un mois après la date d'achat)
     const expirationDate = new Date(purchaseDate);
-    expirationDate.setMonth(expirationDate.getMonth() + 1); // Ajouter un mois à la date d'achat
+    expirationDate.setMonth(expirationDate.getMonth() + 1);
 
-    // Ajouter un VPS à l'utilisateur avec un identifiant unique et une date d'expiration
     user.vps.push({
-        id: uuidv4(), // Ajoute un identifiant unique
+        id: uuidv4(),
         vpsName,
         username,
         password,
@@ -124,14 +150,16 @@ app.post('/add-vps', (req, res) => {
         vcpu,
         ipv4,
         os,
-        purchaseDate: purchaseDate, // Date d'achat
-        expirationDate: expirationDate.toISOString().split('T')[0] // Format YYYY-MM-DD
+        purchaseDate,
+        expirationDate: expirationDate.toISOString().split('T')[0]
     });
 
     saveUsers(users);
+    logAction('Ajout VPS', `VPS ajouté pour ${email} avec le nom: ${vpsName}`);
     req.flash('success', 'VPS ajouté avec succès.');
     res.redirect('/admin');
 });
+
 
 // Route pour afficher les détails d'un VPS
 app.get('/manage/:id', (req, res) => {
@@ -177,19 +205,19 @@ app.post('/admin/delete-vps', (req, res) => {
     const user = users.find(user => user.email === email);
 
     if (user && user.vps) {
-        // Filtrer les VPS pour supprimer celui qui correspond à l'ID du VPS
         user.vps = user.vps.filter(vps => vps.id !== vpsId);
-
-        // Sauvegarder les modifications
         saveUsers(users);
 
+        logAction('Suppression VPS', `VPS avec ID: ${vpsId} supprimé pour l'utilisateur: ${email}`);
         req.flash('success', `VPS supprimé.`);
         res.redirect('/dashboard');
     } else {
+        logAction('Erreur suppression VPS', `Tentative échouée pour supprimer le VPS ID: ${vpsId} pour l'email: ${email}`);
         req.flash('error', 'Utilisateur ou VPS non trouvé.');
         res.redirect('/admin');
     }
 });
+
 
 // Route pour afficher tous les VPS (pour admin uniquement)
 app.get('/admin/vps', (req, res) => {
