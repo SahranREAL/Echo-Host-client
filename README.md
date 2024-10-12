@@ -23,7 +23,7 @@ Pour configurer le projet **Echo-Host client** et installer les dépendances né
 Installez les dépendances nécessaires pour votre projet avec les commandes suivantes :
 
 ```bash
-npm install express body-parser express-session js-yaml connect-flash ejs uuid
+npm install express body-parser express-session js-yaml connect-flash ejs uuid axios
 ```
 
 ### Étape 3 : Clone le github
