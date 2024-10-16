@@ -44,24 +44,22 @@ Voici un exemple de configuration Nginx pour votre projet (sans SSL) :
 2. **Ajoutez la configuration suivante :**
 
    ```nginx
-    server {
-        listen 80;
-          server_name your_domain_or_ip;  # Remplacez par votre domaine ou votre adresse IP
+   server {
+       listen 5244;
+       server_name client.echo-host.us.kg;
 
-    location /public/ {
-        alias /var/www/echo-host/public/;  # Chemin vers le dossier public
-        try_files $uri $uri/ =404;  # Gérer les fichiers non trouvés
-    }
-
-    location / {
-        proxy_pass http://localhost:3000;  # Remplacez par le port que votre serveur Express utilise
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection 'upgrade';
-        proxy_set_header Host $host;
-        proxy_cache_bypass $http_upgrade;
-      }
-    }
+       location / {
+           proxy_pass http://localhost:5243;
+           proxy_http_version 1.1;
+           proxy_set_header Upgrade $http_upgrade;
+           proxy_set_header Connection 'upgrade';
+           proxy_set_header Host $host;
+           proxy_cache_bypass $http_upgrade;
+           proxy_set_header X-Real-IP $remote_addr;
+           proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+           proxy_set_header X-Forwarded-Proto $scheme;
+       }
+   }
 
    ```
 
