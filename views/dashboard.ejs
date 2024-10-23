@@ -4,26 +4,70 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tableau de bord</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/dash.css">
     <!--BoxIcon-->
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="css/dash.css">
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+  
+    <div class="pcont">
+    <div class="pmenu">
+      <ul>
+        <div class="pinfo">
+          <img src="https://www.gravatar.com/avatar/baf33e75a697732555066e6405df0b32?s=1024">
+            <span><%= user.username %></span>
+          &nbsp;&nbsp;
+          <% if (user.level === 2) { %>
+          <div class="admin">
+            Admin
+          </div>
+          <% } %>
+          <div class="user">
+            Membre
+          </div>
+        </div>
+        <li>
+          <span class="material-symbols-outlined">person</span>
+          Compte
+        </li>
+        <li>
+          <span class="material-symbols-outlined">conversion_path</span>
+          Connexions
+        </li>
+        <li>
+          <span class="material-symbols-outlined">payments</span>
+          Payements
+        </li>
+        <div class="sp"></div>
+        <li>
+          <span class="material-symbols-outlined">help</span>
+          Support
+        </li>
+        <div class="sp"></div>
+        <li>
+          <span class="material-symbols-outlined">logout</span>
+          Déconnexion
+        </li>
+      </ul>
+    </div>
+  </div>
     <header>
         <nav>
-            <div class="logo">Echo-Host</div>
+            <div class="logo">
+              <!-- <span>Echo-Host</span> -->
+              <img src="https://echo-host.us.kg/assets/img/logo.png">
+          </div>
             <ul>
                 <li><a href="/dashboard">Home</a></li>
                 <% if (user.level === 2) { %>
-                    <li><a href="/admin">Admin</a></li>
-                    <li><button onclick="window.location.href='/admin/vps'">Voir tous les VPS</button></li>
+                <li><a href="/admin">Admin</a></li>
+                <li><button onclick="window.location.href='/admin/vps'">Voir tous les VPS</button></li>
                 <% } %>
-                <li><a href="/logout">Se déconnecter</a></li>
             </ul>
+            <div class="profile"><img src="https://www.gravatar.com/avatar/baf33e75a697732555066e6405df0b32?s=1024"></div>
         </nav>
     </header>
-
     <main>
         <h1>Bienvenue, <%= user.username %>!</h1>
 
@@ -49,5 +93,24 @@
     <div class="copyright">
       &copy; Copyright <strong><span>Echo-Host</span></strong>. Tous droits réservés.
     </div>
+
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          const profile = document.querySelector('.profile');
+          const pcont = document.querySelector('.pcont');
+      
+          profile.addEventListener('click', function() {
+            pcont.classList.toggle('active');
+          });
+      
+          document.addEventListener('click', function(e) {
+            if (!profile.contains(e.target) && !pcont.contains(e.target)) {
+              pcont.classList.remove('active');
+            }
+          });
+        });
+      </script>
 
 </html>

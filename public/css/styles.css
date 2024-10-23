@@ -1,8 +1,21 @@
-/* Styles de base pour le tableau de bord */
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200");
+
+.material-symbols-outlined {
+  margin-right: 6px; /* Espace entre l'icône et le texte */
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 24
+}
+
 body, html {
     margin: 0;
     padding: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
+    font-family: "Inter", serif;
+    /* font-family: "Poppins", sans-serif; */
     height: 100%;
     width: 100%;
     display: flex;
@@ -10,8 +23,6 @@ body, html {
     background-color: #ebebeb;
 }
 
-
-/*Manage buttons debut*/
 .delete-button {
     display: inline-block;
     padding: 10px 10px;
@@ -28,7 +39,6 @@ body, html {
 .delete-button:hover {
     background-color: rgb(167, 19, 19);
 }
-/*End manage buttons*/
 
 
 main h1 {
@@ -40,6 +50,10 @@ header {
     background-color: #1663c7;
     padding: 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.logo > img {
+  width: 50px;
 }
 
 nav {
@@ -55,8 +69,12 @@ nav .logo {
 }
 
 nav ul {
+    float: right;
     list-style: none;
     display: flex;
+    margin: 0; /* Retirer la marge par défaut */
+    padding: 0; /* Retirer le remplissage par défaut */
+    margin-left: auto; /* Pousse l'ul vers la droite */
 }
 
 nav ul li {
@@ -73,8 +91,6 @@ nav ul li a:hover {
     color: #000000;
 }
 
-
-/* Debut styles vps list*/
 .vps-list {
     padding: 0;
 }
@@ -112,10 +128,123 @@ nav ul li a:hover {
     background-color: #2055a5;
 }
 
-/* Fin vps list styles */
-
-
 .footer {
     text-align: center;
     color: #a0a0a0;
   }
+
+.profile {
+  width: 50px;
+  height: 50px;
+}
+
+.profile > img {
+  width: 50px;
+  height: 50px;  
+  border-radius: 100px;
+}
+
+.pcont {
+  display: none;
+  width: 230px;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  right: 60px;
+  z-index: 9999;
+  opacity: 1;
+  transition: all 0.2s ease-in-out;
+}
+
+.pcont.active {
+  display: block;
+  opacity: 1;
+}
+
+.pmenu {
+  width: 100%;
+  background: white;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+  list-style: none;
+  margin: 35px 10px;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.pmenu ul {
+  padding: 0;
+  margin: 0;
+}
+
+.pmenu > ul > li {
+  list-style: none;
+  text-decoration: none;
+  padding: 10px 0;
+  cursor: pointer;
+  padding: 13px;
+  border-radius: 5px;
+  color: black;
+  transition: all 0.1s ease-in-out;
+  display: flex;
+  align-items: center; /* Aligne verticalement l'icône et le texte */
+}
+
+.pmenu > ul > li > a {
+  text-decoration: none;
+  color: black;
+}
+
+.pmenu > ul > li:hover {
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.pmenu > ul > li:nth-child(8):hover {
+  background-color: rgba(255, 0, 0, 0.1);
+  color: red;
+}
+
+.pinfo {
+    margin: 10px;
+    display: flex; /* Utilise flexbox pour aligner les éléments horizontalement */
+    align-items: center; /* Centre verticalement les éléments */
+}
+
+.pinfo img {
+    width: 40px;
+    margin-right: 10px; /* Ajoute un espacement entre l'image et le texte */
+    border-radius: 50%; /* Pour une image ronde (optionnel) */
+}
+
+.pinfo span {
+    text-align: center; /* Centre le texte horizontalement */
+}
+
+.pinfo div {
+  gap: 15px;
+}
+
+.user {
+  font-size: 14px;
+  border-radius: 50px;
+  padding: 5px;
+  border: solid 1px lightblue;
+  color: lightblue;
+  background-color: rgba(255, 0, 0, 0.1);
+}
+
+.admin {
+  font-size: 14px;
+  border-radius: 50px;
+  padding: 5px;
+  border: solid 1px red;
+  color: red;
+  background-color: rgba(255, 0, 0, 0.1);
+}
+
+.sp {
+  width: 100%;
+  height: 2px;
+  background: rgba(0, 0, 0, 0.1);
+  margin: 10px 0;
+  padding: 0;
+}
