@@ -1,4 +1,4 @@
-# Echo-Host cliet
+# Echo-Host clients Version bêta 0.0.1
    | :exclamation:   L'espace client ne **hach** pas encore les mot de passe NE LEAK DONC PAS VOTRE USERS.YML                                             |
    |------------------------------------------------------------------------------------------------------------------------------------------------------|
 
