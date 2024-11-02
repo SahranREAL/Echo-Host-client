@@ -3,17 +3,18 @@
   password: '123'
   level: 2
   vps:
-    - id: 0d31eb7d-e11a-42a2-bbfe-563ef06686f1
-      vpsName: sahran@gmail.com
-      username: sahran@gmail.com
-      password: 123sahran@gmail.com
-      ram: sahran@gmail.com
-      disk: sahran@gmail.com
-      vcpu: sahran@gmail.com
-      ipv4: sahran@gmail.com
-      os: sahran@gmail.com
-      purchaseDate: '2025-02-02'
-      expirationDate: '2025-03-02'
+    - id: e47ecc57-5ac4-4542-aa18-eade743799a8
+      serverType: Node.js
+      serverName: caca
+      username: acac
+      password: ac
+      ram: ca
+      disk: ca
+      vcpu: ca
+      ipv4: ca
+      os: ca
+      purchaseDate: '0001-11-11'
+      expirationDate: '0001-12-11'
 - email: mestebane1479@gmail.com
   username: RealSteveXD1
   password: '@ihjersgG@HHRTHTR'
