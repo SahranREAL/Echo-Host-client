@@ -66,6 +66,120 @@ app.get('/', (req, res) => {
     res.render('login');
 });
 
+
+// Page de paramètres
+app.get('/account', (req, res) => {
+    if (!req.session.user) {
+        return res.send('Utilisateur non trouvé. <a href="/login">Se connecter</a>');
+    }
+
+    const user = req.session.user; // Récupère l'utilisateur de la session
+    res.render('account', { user }); // Passe l'objet utilisateur à la vue EJS
+});
+app.post('/account', (req, res) => {
+    const { currentPassword, newPassword, confirmNewPassword, email, username } = req.body;
+    const users = loadUsers();
+    const userIp = req.ip;
+
+    const user = users.find(user => user.username === req.session.user.username);
+
+    if (!user) {
+        return res.send('Utilisateur non trouvé. <a href="/login">Se connecter</a>');
+    }
+
+    let updated = false; // Pour savoir si une mise à jour a eu lieu
+    let errors = []; // Pour stocker les messages d'erreur
+
+    console.log('Received data:', req.body); // Log des données reçues
+
+    // Vérifie si le nom d'utilisateur doit être modifié
+    if (username) {
+        if (!currentPassword) {
+            errors.push('Veuillez entrer votre mot de passe actuel pour modifier votre nom d\'utilisateur.');
+        } else if (user.password !== currentPassword) {
+            errors.push('Mot de passe actuel incorrect pour changer le nom d\'utilisateur.');
+        } else {
+            // Journaliser le changement de nom d'utilisateur
+            logAction('Mise à jour du nom d\'utilisateur', `Ancien nom: ${user.username}, Nouveau nom: ${username}`, userIp);
+            user.username = username; // Met à jour le nom d'utilisateur
+            updated = true;
+        }
+    }
+
+    // Vérifie si l'email doit être modifié
+    if (email) {
+        if (!currentPassword) {
+            errors.push('Veuillez entrer votre mot de passe actuel pour modifier votre email.');
+        } else if (user.password !== currentPassword) {
+            errors.push('Mot de passe actuel incorrect pour changer l\'email.');
+        } else {
+            const existingUser = users.find(existingUser => existingUser.email === email);
+            if (existingUser) {
+                errors.push('Email déjà utilisé. <a href="/account">Choisissez un autre email</a>');
+            } else {
+                // Journaliser le changement d'email
+                logAction('Mise à jour de l\'email', `Ancien email: ${user.email}, Nouveau email: ${email}`, userIp);
+                user.email = email; // Met à jour l'email
+                updated = true;
+            }
+        }
+    }
+
+    // Vérifie si le mot de passe doit être modifié
+    if (newPassword) {
+        if (!currentPassword) {
+            errors.push('Veuillez entrer votre mot de passe actuel pour modifier votre mot de passe.');
+        } else if (user.password !== currentPassword) {
+            errors.push('Mot de passe actuel incorrect pour changer le mot de passe.');
+        } else if (newPassword !== confirmNewPassword) {
+            errors.push('Les nouveaux mots de passe ne correspondent pas.');
+        } else {
+            // Journaliser le changement de mot de passe
+            logAction('Mise à jour du mot de passe', `Utilisateur: ${user.username}, Ancien mot de passe: [HIDDEN], Nouveau mot de passe: [HIDDEN]`, userIp);
+            user.password = newPassword; // Met à jour le mot de passe
+            updated = true;
+        }
+    }
+
+    // Vérification des erreurs
+    if (errors.length > 0) {
+        return res.send(errors.join('<br>') + '<br><a href="/account">Réessayer</a>');
+    }
+
+    // Si une mise à jour a eu lieu
+    if (updated) {
+        saveUsers(users); // Assurez-vous que cette fonction enregistre correctement les utilisateurs
+        req.session.user = user; // Met à jour la session avec les nouvelles informations
+        return res.send('Compte mis à jour avec succès. <a href="/">Retour à l\'accueil</a>');
+    } else {
+        return res.send('Aucune mise à jour effectuée. <a href="/account">Réessayer</a>');
+    }
+});
+
+
+
+// Route pour afficher la page de confirmation de suppression de compte
+app.get('/delete-account', (req, res) => {
+    const userIp = req.ip;
+    const user = loadUsers().find(u => u.username === req.session.user.username);
+
+    if (!user) {
+        return res.send('connections refuse. <a href="/login">Se connecter</a>');
+    }
+
+    // Suppression de l'utilisateur
+    const users = loadUsers().filter(u => u.username !== user.username);
+    saveUsers(users);
+    logAction('Suppression de compte', `Utilisateur: ${user.username}`, userIp);
+    req.session.destroy(); // Détruire la session de l'utilisateur
+    return res.send('Votre compte a été supprimé avec succès. <a href="/">Retour à l\'accueil</a>');
+});
+
+
+
+
+
+
 // Page de crÃƒÂ©ation de compte
 app.get('/register', (req, res) => {
     res.render('register');
@@ -105,6 +219,7 @@ app.post('/login', (req, res) => {
         logAction('Echec de connexion', `Tentative avec email: ${email}`, userIp);
         res.send('Email ou mot de passe incorrect. <a href="/">Ressayer</a>');
     }
+
 });
 
 

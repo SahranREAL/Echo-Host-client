@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="css/dash.css">
     <!--BoxIcon-->
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="public/styles.css">
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
   
@@ -28,8 +28,10 @@
           </div>
         </div>
         <li>
+          <a href="/account">
           <span class="material-symbols-outlined">person</span>
           Compte
+        </a>
         </li>
         <li>
           <span class="material-symbols-outlined">conversion_path</span>
@@ -88,28 +90,45 @@
 <div class ="settings-box">
     <div class="settings-text">
 <br>
-        <div class="profile2"><img src="https://www.gravatar.com/avatar/baf33e75a697732555066e6405df0b32?s=1024"><p><%= user.username %></p><p><%= user.mail %></p></div>
+        <div class="profile2"><img src="https://www.gravatar.com/avatar/baf33e75a697732555066e6405df0b32?s=1024"><p><%= user.username %></p><p>-</p><p><%= user.email %></p></div>
 
-        <br>
-            <p>Name</p>
-                <input type="text" name="username" placeholder="Nom d'utilisateur" required>
-            <p>Email</p>
-                <input type="email" name="email" placeholder="Email" required>
-            <div class="change-password">
-            <h1>Change Password</h1>
-            <p>Current Password</p>
-                <input type="password" name="password" placeholder="●●●●●" required>
-            <p>New Password</p>
-                <input type="password" name="new-password" placeholder="●●●●●" required>
-            <p>Confirm Password</p>
-            <input type="password" name="new-password" placeholder="●●●●●" required>
+        <form action="/account" method="POST"> <!-- Formulaire ajouté ici -->
+          <p>Name</p>
+          <input type="text" name="username" placeholder="Nom d'utilisateur">
+          <p>Email</p>
+          <input type="email" name="email" placeholder="Email">
+          <p>Current Password (required for modifications)</p>
+          <input type="password" name="currentPassword" placeholder="●●●●●">
+          <div class="change-password">
+              <h1>Change Password</h1>
+              <p>Nouveau mot de passe</p>
+              <input type="password" name="newPassword" placeholder="●●●●●"> <!-- Corrigé -->
+              <p>Confirmer le mot de passe</p>
+              <input type="password" name="confirmNewPassword" placeholder="●●●●●"> <!-- Corrigé -->
           </div>
-    </div>
-    <div class="dangé-zoon">
-      <p>Delete</p>
-    </div>
+          <button type="submit" class="update-button">Mettre à jour</button> <!-- Bouton de mise à jour -->
+      </form>
+      
+      
+  </div>
+            <!-- Lien pour supprimer le compte avec confirmation -->
+            <p class="dangé-zoon" onclick="openModal();">Delete</p>
+      </div>
     <br>
 </div>
+
+        <!-- Modale de confirmation -->
+        <div id="deleteModal" class="modal">
+          <div class="modal-content">
+              <span class="close" onclick="closeModal();">&times;</span>
+              <h2>Confirmation de suppression</h2>
+              <p>Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible.</p>
+              <div class="modal-buttons">
+                  <button class="cancel" onclick="closeModal();">Annuler</button>
+                  <button class="confirm" onclick="confirmDelete();">Confirmer</button>
+              </div>
+          </div>
+      </div>
 
 
 
@@ -142,6 +161,27 @@
         });
 
       });
+
+      function openModal() {
+            document.getElementById('deleteModal').style.display = "block";
+        }
+
+        function closeModal() {
+            document.getElementById('deleteModal').style.display = "none";
+        }
+
+        function confirmDelete() {
+            // Redirige vers la page de suppression
+            window.location.href = '/delete-account';
+        }
+
+        // Ferme la modale si l'utilisateur clique en dehors de la modale
+        window.onclick = function(event) {
+            const modal = document.getElementById('deleteModal');
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
     </script>
 
 </html>
