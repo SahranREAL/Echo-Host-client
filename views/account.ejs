@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Echo-Host | Espace Client - Compte</title>
+    <link rel="stylesheet" href="css/dash.css">
+    <!--BoxIcon-->
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="public/styles.css">
+</head>
+<body>
+  
+    <div class="pcont">
+    <div class="pmenu">
+      <ul>
+        <div class="pinfo">
+          <img src="https://www.gravatar.com/avatar/baf33e75a697732555066e6405df0b32?s=1024">
+            <span><%= user.username %></span>
+          &nbsp;&nbsp;
+          <% if (user.level === 2) { %>
+          <div class="admin">
+            Admin
+          </div>
+          <% } %>
+          <div class="user">
+            Membre
+          </div>
+        </div>
+        <li>
+          <span class="material-symbols-outlined">person</span>
+          Compte
+        </li>
+        <li>
+          <span class="material-symbols-outlined">conversion_path</span>
+          Connexions
+        </li>
+        <li>
+          <span class="material-symbols-outlined">payments</span>
+          Payements
+        </li>
+        <div class="sp"></div>
+
+          <!--support-->
+        <li>
+          <span class="material-symbols-outlined">help</span>
+          Support
+        </li>
+        <!--support end-->
+
+        <div class="sp"></div>
+        <!--logout-->
+        <a href="/logout"><li>
+          <span class="material-symbols-outlined">logout</span>
+          Déconnexion
+        </a>
+        </li>
+        <!--logout end-->
+
+      </ul>
+    </div>
+  </div>
+    <header>
+        <nav>
+            <div class="logo">
+              <!-- <span>Echo-Host</span> -->
+              <img src="https://echo-host.us.kg/assets/img/logo.png">
+          </div>
+            <ul>
+                <li><a href="/dashboard">Home</a></li>
+                <% if (user.level === 2) { %>
+                <li><a href="/admin">Admin</a></li>
+                <li><button onclick="window.location.href='/admin/vps'">Voir tous les VPS</button></li>
+                <% } %>
+            </ul>
+            <div class="profile"><img src="https://www.gravatar.com/avatar/baf33e75a697732555066e6405df0b32?s=1024"></div>
+        </nav>
+    </header>
+    <main>
+<h1>Paramètre de votre compte client</h1>
+
+
+    <div class="permision">
+        <p>Niveau de permissions: <%= user.level %></p>
+    </div>
+
+    <br>
+<div class ="settings-box">
+    <div class="settings-text">
+<br>
+        <div class="profile2"><img src="https://www.gravatar.com/avatar/baf33e75a697732555066e6405df0b32?s=1024"><p><%= user.username %></p><p><%= user.mail %></p></div>
+
+        <br>
+            <p>Name</p>
+                <input type="text" name="username" placeholder="Nom d'utilisateur" required>
+            <p>Email</p>
+                <input type="email" name="email" placeholder="Email" required>
+            <div class="change-password">
+            <h1>Change Password</h1>
+            <p>Current Password</p>
+                <input type="password" name="password" placeholder="●●●●●" required>
+            <p>New Password</p>
+                <input type="password" name="new-password" placeholder="●●●●●" required>
+            <p>Confirm Password</p>
+            <input type="password" name="new-password" placeholder="●●●●●" required>
+          </div>
+    </div>
+    <div class="dangé-zoon">
+      <p>Delete</p>
+    </div>
+    <br>
+</div>
+
+
+
+        
+    </main>
+</body>
+<div class="footer">
+    <div class="copyright">
+      &copy; Copyright <strong><span>Echo-Host</span></strong>. Tous droits réservés.
+    </div>
+
+
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const profile = document.querySelector('.profile');
+        const pcont = document.querySelector('.pcont');
+
+        profile.addEventListener('click', function() {
+          pcont.classList.toggle('active');
+        });
+
+        document.addEventListener('click', function(e) {
+          if (!profile.contains(e.target) && !pcont.contains(e.target)) {
+            pcont.classList.remove('active');
+          }
+        });
+        document.getElementById('logout').addEventListener('click', function() {
+          window.location.href = '/logout';
+        });
+
+      });
+    </script>
+
+</html>
