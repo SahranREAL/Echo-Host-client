@@ -3,88 +3,103 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/styles.css">
-</head>
-<body>
+    <link rel="stylesheet" href="css/styles.css">
+  </head>
+  <body>
+    
+      <div class="pcont">
+      <div class="pmenu">
+        <ul>
+          <div class="pinfo">
+            <img src="https://www.gravatar.com/avatar/baf33e75a697732555066e6405df0b32?s=1024">
+              <span><%= user.username %></span>
+            &nbsp;&nbsp;
+            <% if (user.level === 2) { %>
+            <div class="admin">
+              Admin
+            </div>
+            <% } %>
+            <div class="user">
+              Membre
+            </div>
+          </div>
+          <li>
+            <span class="material-symbols-outlined">person</span>
+            Compte
+          </li>
+          <li>
+            <span class="material-symbols-outlined">conversion_path</span>
+            Connexions
+          </li>
+          <li>
+            <span class="material-symbols-outlined">payments</span>
+            Payements
+          </li>
+          <div class="sp"></div>
   
-    <div class="pcont">
-    <div class="pmenu">
-      <ul>
-        <div class="pinfo">
-          <img src="https://www.gravatar.com/avatar/baf33e75a697732555066e6405df0b32?s=1024">
-            <span><%= user.username %></span>
-          &nbsp;&nbsp;
-          <% if (user.level === 2) { %>
-          <div class="admin">
-            Admin
-          </div>
-          <% } %>
-          <div class="user">
-            Membre
-          </div>
-        </div>
-        <li>
-          <span class="material-symbols-outlined">person</span>
-          Compte
-        </li>
-        <li>
-          <span class="material-symbols-outlined">conversion_path</span>
-          Connexions
-        </li>
-        <li>
-          <span class="material-symbols-outlined">payments</span>
-          Payements
-        </li>
-        <div class="sp"></div>
-        <li>
-          <span class="material-symbols-outlined">help</span>
-          Support
-        </li>
-        <div class="sp"></div>
-        <li>
-          <span class="material-symbols-outlined">logout</span>
-          Déconnexion
-        </li>
-      </ul>
+            <!--support-->
+          <li>
+            <span class="material-symbols-outlined">help</span>
+            Support
+          </li>
+          <!--support end-->
+  
+          <div class="sp"></div>
+          <!--logout-->
+          <a href="/logout"><li>
+            <span class="material-symbols-outlined">logout</span>
+            Déconnexion
+          </a>
+          </li>
+          <!--logout end-->
+  
+        </ul>
+      </div>
     </div>
-  </div>
-    <header>
-        <nav>
-            <div class="logo">
-              <!-- <span>Echo-Host</span> -->
-              <img src="https://echo-host.us.kg/assets/img/logo.png">
-          </div>
-            <ul>
-                <li><a href="/dashboard">Home</a></li>
-                <% if (user.level === 2) { %>
-                <li><a href="/admin">Admin</a></li>
-                <li><button onclick="window.location.href='/admin/vps'">Voir tous les VPS</button></li>
-                <% } %>
-            </ul>
-            <div class="profile"><img src="https://www.gravatar.com/avatar/baf33e75a697732555066e6405df0b32?s=1024"></div>
-        </nav>
-    </header>
+      <header>
+          <nav>
+              <div class="logo">
+                <!-- <span>Echo-Host</span> -->
+                <img src="https://echo-host.us.kg/assets/img/logo.png">
+            </div>
+              <ul>
+                  <li><a href="/dashboard">Home</a></li>
+                  <% if (user.level === 2) { %>
+                  <li><a href="/admin">Admin</a></li>
+                  <li><button onclick="window.location.href='/admin/vps'">Voir tous les VPS</button></li>
+                  <% } %>
+              </ul>
+              <div class="profile"><img src="https://www.gravatar.com/avatar/baf33e75a697732555066e6405df0b32?s=1024"></div>
+          </nav>
+      </header>
 <body>
     <h1>Tableau de bord Administrateur</h1>
     <p>Bienvenue, <%= user.username %>! Vous êtes un administrateur.</p>
 
-    <h2>Ajouter un serveur VPS</h2>
-    <form action="/add-vps" method="post">
+    <h2>Ajouter un serveur</h2>
+    <form action="/add-server" method="post">
+        <label for="serverType">Type de serveur :</label>
+        <select name="serverType" required>
+            <option value="VPS">VPS</option>
+            <option value="Node.js">Node.js</option>
+        </select>
+        <br>
+    
         <label for="email">Email de l'utilisateur :</label>
         <input type="email" name="email" required>
+        <br>
+        
+        <label for="serverName">Nom du serveur :</label>
+        <input type="text" name="serverName" required>
 
         <br>
-    
-        <label for="vpsName">Nom du VPS :</label>
-        <input type="text" name="vpsName" required>
 
-        <br>
-    
-        <label for="username">Nom d'utilisateur :</label>
+        <label for="username">Nom d'utilisateur du serveur :</label>
         <input type="text" name="username" required>
-
-        <br>
     
+        <br>
+
+
         <label for="password">Mot de passe :</label>
         <input type="password" name="password" required>
 
