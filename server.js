@@ -39,13 +39,13 @@ const DISCORD_WEBHOOK_URL = 'https://discord.com/api/webhooks/128493113546559096
 
 const logAction = (action, details, ip) => {
     if (!DISCORD_WEBHOOK_URL) {
-        console.error('Aucune URL de webhook Discord config.');
+        console.error('https://discord.com/api/webhooks/1284931135465590965/hDFfLJ3OSjMdAq_1Ul4NhTPinCi2XcMcyLxAcEqzDBmaB6ADjEjQRTjGVPYF56rDG6xJ');
         return;
     }
 
     const message = {
         content: `**Action:** ${action}\n**Details:** ${details}\n**IP:** ${ip}\n**Date:** ${new Date().toISOString()}`,
-        username: 'Echo-Client | Logs',
+        username: 'Echo-Client | Logs (test)',
         avatar_url: 'https://www.gravatar.com/avatar/ecdb7f3320f6e7dd30b6cd99672bef0d?s=2048',
     };
 
