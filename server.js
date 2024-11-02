@@ -130,16 +130,21 @@ app.get('/admin', (req, res) => {
     res.render('admin', { user: req.session.user, users });
 });
 
-// Route pour ajouter un VPS
-app.post('/add-vps', (req, res) => {
-    const { email, vpsName, username, password, ram, disk, vcpu, ipv4, os, purchaseDate } = req.body;
+// Route pour ajouter un serveur
+app.post('/add-server', (req, res) => {
+    const { email, serverType, serverName, username, password, ram, disk, vcpu, ipv4, os, purchaseDate } = req.body;
     const users = loadUsers();
 
     const user = users.find(user => user.email === email);
     if (!user) {
-        req.flash('error', 'Utilisateur non trouvÃƒÂ©.');
-        logAction('Erreur ajout VPS', `Utilisateur non trouve pour l'email: ${email}`);
+        req.flash('error', 'Utilisateur non trouvé.');
+        logAction('Erreur ajout serveur', `Utilisateur non trouvé pour l'email: ${email}`);
         return res.redirect('/admin');
+    }
+
+    // Assurez-vous que user.vps est un tableau
+    if (!Array.isArray(user.vps)) {
+        user.vps = []; // Initialisation si c'est null ou undefined
     }
 
     const expirationDate = new Date(purchaseDate);
@@ -147,7 +152,8 @@ app.post('/add-vps', (req, res) => {
 
     user.vps.push({
         id: uuidv4(),
-        vpsName,
+        serverType,  // Ajout du type de serveur
+        serverName,
         username,
         password,
         ram,
@@ -160,10 +166,11 @@ app.post('/add-vps', (req, res) => {
     });
 
     saveUsers(users);
-    logAction('Ajout VPS', `VPS ajoutr pour ${email} avec le nom: ${vpsName}`);
-    req.flash('success', 'VPS ajoute avec succe¨s.');
+    logAction('Ajout de serveur', `Serveur ${serverType} ajoute pour ${email} avec le nom: ${serverName}`);
+    req.flash('success', 'Serveur ajoute avec succès.');
     res.redirect('/admin');
 });
+
 
 
 // Route pour afficher les dÃ©tails d'un VPS
