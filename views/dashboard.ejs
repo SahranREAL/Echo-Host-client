@@ -87,7 +87,8 @@
 <div class="vps-list">
     <% user.vps.forEach(vps => { %>
         <div class="vps-box">
-            <strong>Nom du VPS :</strong> <%= vps.vpsName %> <br>
+            <strong>Nom du Serveur :</strong> <%= vps.serverName %> <br>
+            <strong>Type :</strong> <%= vps.serverType %> <br>
             <button class="manage-button" onclick="window.location.href='/manage/<%= vps.id %>'">Gérer</button>
         </div>
     <% }) %>
@@ -105,20 +106,24 @@
 
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-          const profile = document.querySelector('.profile');
-          const pcont = document.querySelector('.pcont');
-      
-          profile.addEventListener('click', function() {
-            pcont.classList.toggle('active');
-          });
-      
-          document.addEventListener('click', function(e) {
-            if (!profile.contains(e.target) && !pcont.contains(e.target)) {
-              pcont.classList.remove('active');
-            }
-          });
+      document.addEventListener('DOMContentLoaded', function() {
+        const profile = document.querySelector('.profile');
+        const pcont = document.querySelector('.pcont');
+
+        profile.addEventListener('click', function() {
+          pcont.classList.toggle('active');
         });
-      </script>
+
+        document.addEventListener('click', function(e) {
+          if (!profile.contains(e.target) && !pcont.contains(e.target)) {
+            pcont.classList.remove('active');
+          }
+        });
+        document.getElementById('logout').addEventListener('click', function() {
+          window.location.href = '/logout';
+        });
+
+      });
+    </script>
 
 </html>
