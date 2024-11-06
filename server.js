@@ -35,18 +35,18 @@ const loadUsers = () => {
 
 
 // URL du webhook Discord (ÃƒÂ  remplacer par ton webhook)
-const DISCORD_WEBHOOK_URL = 'https://discord.com/api/webhooks/1284931135465590965/hDFfLJ3OSjMdAq_1Ul4NhTPinCi2XcMcyLxAcEqzDBmaB6ADjEjQRTjGVPYF56rDG6xJ';
+const DISCORD_WEBHOOK_URL = 'https://discord.com/api/webhooks/1303783055970013226/Gmt_d_w-VNTkjGw12h8S2q10-PE0L8fI6inwnRcc1I_uLysLDVHjUPTBrGKfNz8YFaev'; // Changé avec l'url de votre webhook
 
 const logAction = (action, details, ip) => {
     if (!DISCORD_WEBHOOK_URL) {
-        console.error('https://discord.com/api/webhooks/1284931135465590965/hDFfLJ3OSjMdAq_1Ul4NhTPinCi2XcMcyLxAcEqzDBmaB6ADjEjQRTjGVPYF56rDG6xJ');
+        console.error('https://discord.com/api/webhooks/1303783055970013226/Gmt_d_w-VNTkjGw12h8S2q10-PE0L8fI6inwnRcc1I_uLysLDVHjUPTBrGKfNz8YFaev'); //Changé avec l'url de votre webhook
         return;
     }
 
     const message = {
         content: `**Action:** ${action}\n**Details:** ${details}\n**IP:** ${ip}\n**Date:** ${new Date().toISOString()}`,
-        username: 'Echo-Client | Logs (test)',
-        avatar_url: 'https://www.gravatar.com/avatar/ecdb7f3320f6e7dd30b6cd99672bef0d?s=2048',
+        username: 'Echo-Client | Logs - test', // Noms de votre webhook
+        avatar_url: 'https://www.gravatar.com/avatar/ecdb7f3320f6e7dd30b6cd99672bef0d?s=2048', //Change logo webhook url
     };
 
     axios.post(DISCORD_WEBHOOK_URL, message)
@@ -70,7 +70,7 @@ app.get('/', (req, res) => {
 // Page de paramètres
 app.get('/account', (req, res) => {
     if (!req.session.user) {
-        return res.send('Utilisateur non trouvé. <a href="/login">Se connecter</a>');
+        return res.send('connections refuse. <a href="/login">Se connecter</a>');
     }
 
     const user = req.session.user; // Récupère l'utilisateur de la session
@@ -84,7 +84,7 @@ app.post('/account', (req, res) => {
     const user = users.find(user => user.username === req.session.user.username);
 
     if (!user) {
-        return res.send('Utilisateur non trouvé. <a href="/login">Se connecter</a>');
+        return res.send('connections refuse. <a href="/login">Se connecter</a>');
     }
 
     let updated = false; // Pour savoir si une mise à jour a eu lieu
@@ -150,7 +150,7 @@ app.post('/account', (req, res) => {
     if (updated) {
         saveUsers(users); // Assurez-vous que cette fonction enregistre correctement les utilisateurs
         req.session.user = user; // Met à jour la session avec les nouvelles informations
-        return res.send('Compte mis à jour avec succès. <a href="/">Retour à l\'accueil</a>');
+        return res.send('Compte mis à jour avec succès. <a href="/dashboard">Retour à l\'accueil</a>');
     } else {
         return res.send('Aucune mise à jour effectuée. <a href="/account">Réessayer</a>');
     }

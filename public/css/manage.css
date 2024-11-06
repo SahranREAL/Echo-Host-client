@@ -1,7 +1,8 @@
-main p {
-    margin: 4px 0;
-    padding: 8px;
-    border-radius: 10px;
-    align-items: center;
-    text-align: center;
+.ipv4 p{
+    text-align: left;
+    background-color: rgb(210, 210, 210);
+    width: 6.5%;
+    padding: 5px;
+    border-radius: 1000px;
+    margin-left: 2%;
 }

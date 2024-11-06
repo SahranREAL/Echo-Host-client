@@ -69,6 +69,9 @@
             <div class="profile"><img src="https://www.gravatar.com/avatar/baf33e75a697732555066e6405df0b32?s=1024"></div>
         </nav>
     </header>
+<div class="ipv4">
+  ㅤㅤ<p><%= vps.ipv4 %></p>
+</div>
 
     <main>
         <h1>Détails du VPS : <%= vps.vpsName %></h1>
@@ -77,7 +80,6 @@
         <p><strong>RAM :</strong> <%= vps.ram %> GiB</p>
         <p><strong>Disque :</strong> <%= vps.disk %> GiB</p>
         <p><strong>CPU :</strong> <%= vps.vcpu %> vCPU</p>
-        <p><strong>IPv4 :</strong> <%= vps.ipv4 %></p>
         <p><strong>OS :</strong> <%= vps.os %></p>
         <p><strong>Date d'achat :</strong> <%= vps.purchaseDate %></p> <!-- Affichage de la date d'achat -->
         <p><strong>Date d'expiration :</strong> <%= vps.expirationDate %></p> <!-- Affichage de la date d'expiration -->

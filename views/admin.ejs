@@ -4,7 +4,84 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/admin.css">
   </head>
+
+<style>
+          /* Style de la barre latérale */
+          .sidbare {
+            width: 50px;
+            background-color: #2C3E50;
+            color: #ECF0F1;
+            position: fixed;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+        }
+
+        /* Style des liens de la barre latérale */
+        .sidbare ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidbare li {
+            margin: 15px 0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            font-size: 1rem;
+        }
+
+        .sidbare li .material-symbols-outlined {
+            margin-right: 10px;
+        }
+
+        /* Style de la fenêtre pop-up */
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #FFF;
+            padding: 20px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            width: 300px;
+            z-index: 1000;
+        }
+
+        .popup h2 {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+        }
+
+        /* Boutons de la pop-up */
+        .popup button {
+            margin-top: 15px;
+            padding: 10px 15px;
+            background-color: #3498DB;
+            color: #FFF;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        /* Style pour cacher et afficher la pop-up */
+        .overlay {
+            position: fixed;
+            display: none;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+</style>
+
   <body>
     
       <div class="pcont">
@@ -75,9 +152,44 @@
           </nav>
       </header>
 <body>
-    <h1>Tableau de bord Administrateur</h1>
-    <p>Bienvenue, <%= user.username %>! Vous êtes un administrateur.</p>
 
+  <!--Sidbare popup-->
+<div class="sidbare">
+  <img src="https://echo-host.us.kg/assets/img/logo.png">
+  <ul>
+      <li onclick="showPopup()">
+          <span class="material-symbols-outlined">add_circle_outline</span>
+        </li>
+    </ul>
+</div>
+  <!--Sidbare popup end-->
+
+
+
+<div class="admin-test-test">
+    <h1>Administrative Overview</h1>
+   <!--<p>Bienvenue, <%= user.username %>! Vous êtes un administrateur.</p>-->
+  </div>
+  <style>
+    .admin-test-test {
+      text-align: center;
+    }
+  </style>
+
+    <!--Admin info-->
+    <div class="admin-info">
+        <h1>Systeme Information</h1>
+        <p>Votre panel est à jour! La dernière version est la 1.0.0 et vous utilisez actuellement la version 1.0.0</p>
+    </div>
+
+
+
+
+    <!--Ajout de VPS-->
+
+    <div class="overlay" id="overlay" onclick="hidePopup()"></div>
+
+    <div class="popup" id="popup">
     <h2>Ajouter un serveur</h2>
     <form action="/add-server" method="post">
         <label for="serverType">Type de serveur :</label>
@@ -103,32 +215,32 @@
 
 
         <label for="password">Mot de passe :</label>
-        <input type="password" name="password" required>
+        <input type="password" name="password"required >
 
         <br>
     
         <label for="ram">RAM :</label>
-        <input type="text" name="ram" required>
+        <input type="text" name="ram" >
 
         <br>
     
         <label for="disk">Disque :</label>
-        <input type="text" name="disk" required>
+        <input type="text" name="disk" >
 
         <br>
     
         <label for="vcpu">CPU :</label>
-        <input type="text" name="vcpu" required>
+        <input type="text" name="vcpu" >
 
         <br>
     
-        <label for="ipv4">IPv4 :</label>
-        <input type="text" name="ipv4" required>
+        <label for="ipv4">(VPS) IPv4 :</label>
+        <input type="text" name="ipv4">
 
         <br>
     
-        <label for="os">OS :</label>
-        <input type="text" name="os" required>
+        <label for="os">(VPS) OS :</label>
+        <input type="text" name="os">
 
         <br>
     
@@ -137,14 +249,19 @@
 
         <br>
     
-        <button type="submit">Ajouter VPS</button>
+        <button type="submit">Ajouter le serveur</button>
     </form>
+    <button onclick="hidePopup()">Fermer</button>
+  </div>
     
     <div class="footer">
         <div class="copyright">
           &copy; Copyright <strong><span>Echo-Host</span></strong>. Tous droits réservés.
         </div>
 </body>
+
+
+
 
 
 <script>
@@ -163,5 +280,17 @@
       });
     });
   </script>
+
+<script>
+  function showPopup() {
+      document.getElementById("popup").style.display = "block";
+      document.getElementById("overlay").style.display = "block";
+  }
+
+  function hidePopup() {
+      document.getElementById("popup").style.display = "none";
+      document.getElementById("overlay").style.display = "none";
+  }
+</script>
   
 </html>
