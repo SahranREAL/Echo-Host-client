@@ -1,8 +1,24 @@
 .ipv4 p{
     text-align: left;
-    background-color: rgb(210, 210, 210);
+    background-color: #d2d2d2;
     width: 6.5%;
     padding: 5px;
     border-radius: 1000px;
-    margin-left: 2%;
+    margin-left: 5.6%;
+}
+
+.password {
+    filter: blur(4px); /* Applique un flou initial */
+    transition: filter 0.6s; /* Animation pour rendre la transition plus fluide */
+    cursor: pointer; /* Change le curseur pour montrer que l'élément est interactif */
+}
+
+.password:hover {
+    filter: blur(0); /* Supprime le flou quand on passe la souris */
+}
+
+
+
+.test p {
+    text-align: center;
 }
