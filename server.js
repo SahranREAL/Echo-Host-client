@@ -308,7 +308,7 @@ app.get('/manage/:id', (req, res) => {
 
 
     // Redirige si cest pas un vps
-    if (['Minecraft Xeon', 'Node.js', 'Pythons'].includes(vps.serverType)) {
+    if (['Minecraft Java - Xeon', 'Node.js', 'Pythons'].includes(vps.serverType)) {
         return res.redirect('https://panel.echo-host.net');
     }
 
