@@ -76,16 +76,16 @@
           </nav>
       </header>
 <body>
-    <h1>Gestion des VPS</h1>
+    <h1>Gestion des serveurs</h1>
     
-    <h2>Liste des VPS</h2>
+    <h2>Liste des serveurs</h2>
 
     <table>
         <thead>
             <tr>
                 <th>Email</th>
-                <th>Nom du VPS</th>
-                <th>Adresse IPv4</th>
+                <th>Nom du serveur</th>
+                <th>Ip du serveur</th>
                 <th>Système d'Exploitation</th>
                 <th>Actions</th>
             </tr>
@@ -94,7 +94,7 @@
             <% allVps.forEach(vps => { %>
                 <tr>
                     <td><%= vps.email %></td>
-                    <td><%= vps.vpsName %></td>
+                    <td><%= vps.serverType %></td>
                     <td><%= vps.ipv4 %></td>
                     <td><%= vps.os %></td>
                     <td>

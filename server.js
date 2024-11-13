@@ -288,7 +288,7 @@ app.post('/add-server', (req, res) => {
 
 
 
-// Route pour afficher les dÃ©tails d'un VPS
+// Route pour afficher les details d'un VPS
 app.get('/manage/:id', (req, res) => {
     const { id } = req.params;
     const users = loadUsers();
@@ -306,7 +306,16 @@ app.get('/manage/:id', (req, res) => {
         return res.send('VPS non trouvr. <a href="/dashboard">Retourner au tableau de bord</a>');
     }
 
-    // VÃ©rification des permissions
+
+    // Redirige si cest pas un vps
+    if (['Minecraft Xeon', 'Node.js', 'Pythons'].includes(vps.serverType)) {
+        return res.redirect('https://panel.echo-host.net');
+    }
+
+
+
+
+    // Verification des permissions
     if (currentUser.level === 2) {
         // Si l'utilisateur est un admin (niveau 2), il peut accÃ©der Ã  tous les VPS
         return res.render('manage', { vps, user: currentUser });
@@ -361,7 +370,7 @@ app.get('/admin/vps', (req, res) => {
             user.vps.forEach(vps => {
                 allVps.push({
                     email: user.email,  // Ajouter l'email de l'utilisateur pour chaque VPS
-                    vpsName: vps.vpsName,
+                    vpsName: vps.serverType,
                     ipv4: vps.ipv4,
                     os: vps.os,
                     id: vps.id // Ajouter l'identifiant du VPS

@@ -2,19 +2,7 @@
   username: Sahran
   password: '123'
   level: 2
-  vps:
-    - id: 60341faf-ea79-459f-be87-8b331f49d63f
-      serverType: VPS
-      serverName: test
-      username: test
-      password: '35'
-      ram: '35'
-      disk: '35'
-      vcpu: '35'
-      ipv4: '35'
-      os: '35'
-      purchaseDate: '0999-09-09'
-      expirationDate: '0999-10-09'
+  vps: []
 - email: mestebane1479@gmail.com
   username: RealSteveXD1
   password: '1'
