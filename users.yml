@@ -3,18 +3,18 @@
   password: '123'
   level: 2
   vps:
-    - id: 3d5abbf7-9cfb-468d-af1e-71aa28024538
+    - id: 60341faf-ea79-459f-be87-8b331f49d63f
       serverType: VPS
-      serverName: Test
-      username: root
-      password: '123'
-      ram: '12'
-      disk: '12'
-      vcpu: '12'
-      ipv4: 89.466.176.57
-      os: Debian 12
-      purchaseDate: '2024-11-02'
-      expirationDate: '2024-12-02'
+      serverName: test
+      username: test
+      password: '35'
+      ram: '35'
+      disk: '35'
+      vcpu: '35'
+      ipv4: '35'
+      os: '35'
+      purchaseDate: '0999-09-09'
+      expirationDate: '0999-10-09'
 - email: mestebane1479@gmail.com
   username: RealSteveXD1
   password: '1'

@@ -180,7 +180,7 @@ app.get('/delete-account', (req, res) => {
 
 
 
-// Page de crÃƒÂ©ation de compte
+// Page de cretation de compte
 app.get('/register', (req, res) => {
     res.render('register');
 });
